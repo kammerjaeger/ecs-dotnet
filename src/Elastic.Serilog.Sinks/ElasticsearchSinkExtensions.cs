@@ -48,12 +48,12 @@ namespace Elastic.Serilog.Sinks
 			ICollection<Uri> nodes,
 			Action<ElasticsearchSinkOptions>? configureOptions = null,
 			Action<TransportConfiguration>? configureTransport = null,
-			bool useSniffing = true,
+			bool dontUseSniffing = true,
 			LoggingLevelSwitch? levelSwitch = null,
 			LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum
 		)
 		{
-			var transportConfig = useSniffing ? TransportHelper.Static(nodes) : TransportHelper.Sniffing(nodes);
+			var transportConfig = dontUseSniffing ? TransportHelper.Static(nodes) : TransportHelper.Sniffing(nodes);
 			configureTransport?.Invoke(transportConfig);
 
 			var sinkOptions = new ElasticsearchSinkOptions(new DefaultHttpTransport(transportConfig));
@@ -73,12 +73,12 @@ namespace Elastic.Serilog.Sinks
 			ICollection<Uri> nodes,
 			Action<ElasticsearchSinkOptions<TEcsDocument>>? configureOptions = null,
 			Action<TransportConfiguration>? configureTransport = null,
-			bool useSniffing = true,
+			bool dontUseSniffing = true,
 			LoggingLevelSwitch? levelSwitch = null,
 			LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum
 		) where TEcsDocument : EcsDocument, new()
 		{
-			var transportConfig = useSniffing ? TransportHelper.Static(nodes) : TransportHelper.Sniffing(nodes);
+			var transportConfig = dontUseSniffing ? TransportHelper.Static(nodes) : TransportHelper.Sniffing(nodes);
 			configureTransport?.Invoke(transportConfig);
 			var sinkOptions = new ElasticsearchSinkOptions<TEcsDocument>(new DefaultHttpTransport(transportConfig));
 			configureOptions?.Invoke(sinkOptions);
